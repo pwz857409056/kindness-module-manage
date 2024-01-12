@@ -1,0 +1,31 @@
+<?php
+
+namespace plugin\{{ name }}\app\services;
+
+use plugin\{{ name }}\helpers\ResponseEnum;
+use Kindness\ModuleManage\Contracts\ServiceInterface;
+
+class BaseService implements ServiceInterface
+{
+    /**
+     * 处理返回code和message
+     * @var array
+     */
+    protected array $code = ResponseEnum::CLIENT_NOT_FOUND_HTTP_ERROR;
+
+    /**
+     * 处理返回结果
+     * @var mixed|array
+     */
+    protected array $result = [];
+
+    public function getResult(): array
+    {
+        return $this->result;
+    }
+
+    public function getCode(): array
+    {
+        return $this->code;
+    }
+}

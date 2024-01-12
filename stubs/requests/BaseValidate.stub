@@ -1,0 +1,28 @@
+<?php
+
+namespace plugin\{{ name }}\app\requests;
+
+
+use app\exceptions\BusinessException;
+use plugin\{{ name }}\helpers\ResponseEnum;
+use think\Validate;
+
+/**
+ * @desc:表单验证基类
+ */
+class BaseValidate extends Validate
+{
+    /**
+     * @throws BusinessException
+     */
+    public function goCheck($scene = ''): bool
+    {
+        $params = request()->all();
+        $check = empty($scene) ? $this->check($params) : $this->scene($scene)->check($params);
+        //开始判断验证
+        if (!$check) {
+            throw new BusinessException(ResponseEnum::HTTP_ERROR, $this->getError());
+        }
+        return true;
+    }
+}

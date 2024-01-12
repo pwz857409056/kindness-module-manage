@@ -1,0 +1,14 @@
+<?php
+
+namespace plugin\{{ name }}\app\controllers;
+
+use app\common\response\ApiResponse;
+use Kindness\ModuleManage\Contracts\ServiceInterface;
+
+abstract class BaseController
+{
+    // API接口响应
+    use  ApiResponse;
+
+    protected ServiceInterface $service;
+}

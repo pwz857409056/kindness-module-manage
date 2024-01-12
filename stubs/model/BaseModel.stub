@@ -1,0 +1,35 @@
+<?php
+declare(strict_types=1);
+
+namespace plugin\{{ name }}\app\model;
+
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * App\Models\BaseModel
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel query()
+ */
+class BaseModel extends Model
+{
+    public $timestamps = false;
+
+    /**
+     * 白名单
+     *
+     * @var array
+     */
+    protected $fillable = [];
+    /**
+     * 黑名单
+     *
+     * @var array
+     */
+    protected $guarded = [];
+    protected $hidden = [
+        'pivot'
+    ];
+}

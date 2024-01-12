@@ -1,0 +1,26 @@
+<?php
+
+namespace plugin\{{ name }}\app\providers;
+
+
+use Kindness\ModuleManage\Providers\ServerProvider;
+
+class AppServerProvider extends ServerProvider
+{
+    /**
+     * Call the method when container started.
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+
+    }
+
+    public function register()
+    {
+        foreach (config('plugin.{{ name }}.dependence') as $abstract => $concrete) {
+            $this->container->register($abstract, $concrete);
+        }
+    }
+}

@@ -1,0 +1,41 @@
+<?php
+return [
+    //是否开启严格验证
+    'strict' => true,
+    //发行人
+    'iss' => 'xinbo',
+    //发布时间
+    'iat' => time(),
+    //用户
+    'aud' => request() ? md5(request()->header('user-agent')) : '',
+    //主题
+    'sub' => 'xinbo-passport',
+    //JWT ID用于标识该JWT
+    'jti' => uniqid(),
+    // access令牌过期时间，单位：秒。默认 2 小时
+    'access_exp' => '7200',
+    // refresh令牌过期时间，单位：秒。默认 7 天
+    'refresh_exp' => '1296000',
+    // 缓存令牌前缀
+    'cache_token_pre' => '{{ upperName }}:JWT:TOKEN:',
+    // 缓存刷新令牌前缀
+    'cache_refresh_token_pre' => '{{ upperName }}:JWT:REFRESH_TOKEN:',
+    //在此之前不可用
+    'nbf' => '0',
+    // 时钟偏差冗余时间，单位秒。建议这个余地应该不大于几分钟。
+    'leeway' => 0,
+    // 算法类型 HS256、HS384、HS512、RS256、RS384、RS512、ES256、ES384、Ed25519
+    'algorithms' => 'HS256',
+    // access令牌秘钥
+    'access_secret_key' => '2f7495ed8f64802f60feb2c31bae0563d8e4f26b6dedf4b75fa2fd130fd5457d',//bin2hex(random_bytes(32))
+    // refresh令牌秘钥
+    'refresh_secret_key' => '2022KTxigxc9o50c',
+    // 载荷加密秘钥，为空不加密，base64编码后
+    'passphrase' => 'f5993b6eb2760b79afaeee84b234fb68',
+    // 单设备登录
+    'is_single_device' => false,
+    // 用户信息模型
+    'user_model' => function ($uid) {
+        return [];
+    },
+];

@@ -1,0 +1,29 @@
+<?php
+
+namespace plugin\{{ name }}\helpers;
+/**
+ * 200表示成功|400表示错误的请求|500表示内部服务器错误
+ * Class ResponseEnum
+ * @package App\Helpers
+ */
+class ResponseEnum
+{
+    const HTTP_OK = [200001, '操作成功'];
+    const HTTP_ERROR = [500001, '操作失败'];
+    const USER_SERVICE_LOGIN_SUCCESS = [200002, '登录成功'];
+    const USER_SERVICE_LOGIN_ERROR = [500002, '登录失败'];
+    const USER_SERVICE_LOGOUT_SUCCESS = [200003, '退出登录成功'];
+    const USER_SERVICE_LOGOUT_ERROR = [500003, '退出登录失败'];
+    const USER_SERVICE_REGISTER_SUCCESS = [200004, '注册成功'];
+    const USER_SERVICE_REGISTER_ERROR = [500004, '注册失败'];
+    const CLIENT_NOT_FOUND_HTTP_ERROR = [400001, '请求失败'];
+    const CLIENT_PARAMETER_ERROR = [400002, '参数错误'];
+    const CLIENT_CREATED_ERROR = [400003, '数据已存在'];
+    const CLIENT_NOT_FOUND_ERROR = [400005, '没有找到该页面'];
+    const CLIENT_METHOD_HTTP_TYPE_ERROR = [400006, 'HTTP请求类型错误'];
+    const SYSTEM_ERROR = [500000, '服务器错误'];
+    const UNKNOWN_ERROR = [500500, '未知错误'];
+    const GET_SUCCESS = [200200, '获取成功'];
+    const GET_ERROR = [500200, '获取失败'];
+    const PREVENT_REPEAT_ERROR = [5001000, '系统繁忙，请稍后再试！'];
+}
