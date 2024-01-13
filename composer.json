@@ -7,7 +7,6 @@
     "php": ">=8.0",
     "webman/console": "^1.3",
     "vlucas/phpdotenv": "^5.5",
-    "slince/di": "^3.2",
     "phpseclib/phpseclib": "^3.0",
     "firebase/php-jwt": "^6.9",
     "illuminate/support": "^9.52",
@@ -16,7 +15,9 @@
     "illuminate/pagination": "^9.52",
     "illuminate/events": "^9.52",
     "topthink/think-validate": "^2.0",
-    "psr/container": "^2.0"
+    "psr/container": "^2.0",
+    "php-di/php-di": "^7.0",
+    "doctrine/annotations": "^2.0"
   },
   "autoload": {
     "psr-4": {
