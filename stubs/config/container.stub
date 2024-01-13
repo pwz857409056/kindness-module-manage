@@ -5,6 +5,6 @@ $builder->useAutowiring(true);
 $builder->useAttributes(true);
 try {
     return $builder->build();
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     var_dump($e->getMessage());
 }

@@ -11,7 +11,7 @@ abstract class ServerProvider
     /**
      * The application instance.
      *
-     * @var ContainerInterface|\Slince\Di\Container
+     * @var ContainerInterface|\DI\Container
      */
     protected $container;
 
@@ -42,14 +42,9 @@ abstract class ServerProvider
     {
         if (config("plugin.$this->plugin.dependence") !== null) {
             foreach (config("plugin.$this->plugin.dependence") as $abstract => $concrete) {
-                $this->container->register($abstract, $concrete);
+                $this->container->set($abstract, $concrete);
             }
         }
-    }
-
-    public function register()
-    {
-
     }
 
     /**

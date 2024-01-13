@@ -112,7 +112,6 @@ class Module implements Bootstrap
                     Worker::safeEcho("<n><g>[INFO]</g> 应用模块 {$moduleName} 已启动.</n>" . PHP_EOL);
                 }
                 $serverProvider = new $appServerProvider($this->worker, $moduleName);
-                $serverProvider->register();
                 $serverProvider->boot();
             }
         }

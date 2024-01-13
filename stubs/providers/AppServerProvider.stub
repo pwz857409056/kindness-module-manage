@@ -16,9 +16,4 @@ class AppServerProvider extends ServerProvider
     {
 
     }
-
-    public function register()
-    {
-
-    }
 }
