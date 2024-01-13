@@ -3,8 +3,8 @@
 namespace plugin\{{ name }}\app\requests;
 
 
-use app\exceptions\BusinessException;
-use plugin\{{ name }}\helpers\ResponseEnum;
+use Kindness\ModuleManage\Exceptions\BusinessException;
+use plugin\{{ name }}\response\ResponseEnum;
 use think\Validate;
 
 /**

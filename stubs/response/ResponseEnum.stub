@@ -1,10 +1,10 @@
 <?php
 
-namespace plugin\{{ name }}\helpers;
+namespace plugin\{{ name }}\response;
 /**
  * 200表示成功|400表示错误的请求|500表示内部服务器错误
  * Class ResponseEnum
- * @package App\Helpers
+ * @package response
  */
 class ResponseEnum
 {

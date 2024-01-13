@@ -86,7 +86,7 @@ return [
             'controller-BaseController' => ['from' => 'controller/BaseController.stub', 'to' => '/app/controllers/BaseController.php'],
             'service-BaseService' => ['from' => 'service/BaseService.stub', 'to' => '/app/services/BaseService.php'],
             'provider' => ['from' => 'providers/AppServerProvider.stub', 'to' => '/app/providers/AppServerProvider.php'],
-            'helpers' => ['from' => 'helpers/ResponseEnum.stub', 'to' => '/helpers/ResponseEnum.php'],
+            'response' => ['from' => 'response/ResponseEnum.stub', 'to' => '/response/ResponseEnum.php'],
             'requests-BaseValidate' => ['from' => 'requests/BaseValidate.stub', 'to' => '/app/requests/BaseValidate.php'],
             'model-BaseModel' => ['from' => 'model/BaseModel.stub', 'to' => '/app/models/BaseModel.php'],
             'app-middleware-EnableCrossRequest' => ['from' => 'middleware/EnableCrossRequest.stub', 'to' => '/app/middleware/EnableCrossRequest.php'],

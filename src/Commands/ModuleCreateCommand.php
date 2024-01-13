@@ -30,11 +30,8 @@ class ModuleCreateCommand extends Command
         $name = trim($name);
         $studlyName = UtilStr::getStudlyName($name);
 
-        $author = $this->ask('请输入作者名（必填）');
-        if (empty($author)) {
-            $this->error('请输入作者名');
-            return self::FAILURE;
-        }
+        $author = $this->setAuthorName($input, $output);
+        
         $email = $this->ask('请输入邮箱地址（选填）');
         $description = $this->ask('请输入应用简介（选填）');
         $homepage = $this->ask('请输入主页地址（选填）');
@@ -73,12 +70,20 @@ class ModuleCreateCommand extends Command
     {
         $name = $this->ask('请输入模块名（必填）');
         if (empty($name)) {
-            $this->error('请输入模块名');
             return $this->setModuleName($input, $output);
         }
         if (is_dir($plugin_config_path = base_path() . "/plugin/$name")) {
             $this->error("module:$name already exists");
             return $this->setModuleName($input, $output);
+        }
+        return $name;
+    }
+
+    public function setAuthorName(InputInterface $input, OutputInterface $output)
+    {
+        $name = $this->ask('请输入作者姓名（必填）');
+        if (empty($name)) {
+            return $this->setAuthorName($input, $output);
         }
         return $name;
     }

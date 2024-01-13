@@ -43,7 +43,6 @@ class Module implements Bootstrap
 
         $market = self::getInstance();
         $market->worker = $worker;
-
         $market->reload();
         $market->boot();
     }

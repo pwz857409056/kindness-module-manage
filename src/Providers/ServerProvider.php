@@ -22,6 +22,8 @@ abstract class ServerProvider
      */
     protected $worker;
 
+    protected $plugin;
+
     /**
      * Create a new service provider instance.
      *
@@ -32,8 +34,18 @@ abstract class ServerProvider
     {
         $this->container = Container::instance($plugin);
         $this->worker = $worker;
+        $this->plugin = $plugin;
+        $this->init();
     }
 
+    private function init()
+    {
+        if (config("plugin.$this->plugin.dependence") !== null) {
+            foreach (config("plugin.$this->plugin.dependence") as $abstract => $concrete) {
+                $this->container->register($abstract, $concrete);
+            }
+        }
+    }
 
     public function register()
     {

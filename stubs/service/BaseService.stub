@@ -2,7 +2,7 @@
 
 namespace plugin\{{ name }}\app\services;
 
-use plugin\{{ name }}\helpers\ResponseEnum;
+use plugin\{{ name }}\response\ResponseEnum;
 use Kindness\ModuleManage\Contracts\ServiceInterface;
 
 class BaseService implements ServiceInterface

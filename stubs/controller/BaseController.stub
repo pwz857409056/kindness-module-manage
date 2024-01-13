@@ -2,7 +2,7 @@
 
 namespace plugin\{{ name }}\app\controllers;
 
-use app\common\response\ApiResponse;
+use Kindness\ModuleManage\Response\ApiResponse;
 use Kindness\ModuleManage\Contracts\ServiceInterface;
 
 abstract class BaseController

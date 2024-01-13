@@ -19,8 +19,6 @@ class AppServerProvider extends ServerProvider
 
     public function register()
     {
-        foreach (config('plugin.{{ name }}.dependence') as $abstract => $concrete) {
-            $this->container->register($abstract, $concrete);
-        }
+
     }
 }
