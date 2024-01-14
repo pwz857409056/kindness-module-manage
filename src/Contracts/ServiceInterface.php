@@ -4,7 +4,7 @@ namespace Kindness\ModuleManage\Contracts;
 
 interface ServiceInterface
 {
-    public function getResult(): array;
+    public function getResult(): mixed;
 
     public function getCode(): array;
 }

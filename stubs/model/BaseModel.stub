@@ -1,10 +1,11 @@
 <?php
+
 namespace plugin\{{ name }}\app\models;
 
-use Illuminate\Database\Eloquent\Model;
+use support\Model;
 
 /**
- * App\Models\BaseModel
+ * app\models\BaseModel
  *
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()

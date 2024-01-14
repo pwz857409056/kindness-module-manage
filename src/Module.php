@@ -2,6 +2,7 @@
 
 namespace Kindness\ModuleManage;
 
+use DI\Container;
 use Kindness\ModuleManage\Utils\MergeVendorPlugin;
 use Webman\Bootstrap;
 use Webman\Config;

@@ -1,6 +1,7 @@
 <?php
 
 use Webman\Config;
+use support\Container;
 
 if (!function_exists('with')) {
     /**
@@ -31,5 +32,15 @@ if (!function_exists('module_path')) {
         return Config::get('plugin.kindness.module-manage.app.paths.module', base_path() . DIRECTORY_SEPARATOR . 'module')
             . ($module_name ? DIRECTORY_SEPARATOR . $module_name : '')
             . ($dir ? DIRECTORY_SEPARATOR . $dir : '');
+    }
+}
+
+if (!function_exists('app')) {
+    function app($plugin = '', $abstract = null, array $parameters = [])
+    {
+        if (is_null($abstract)) {
+            return Container::instance($plugin);
+        }
+        return Container::instance($plugin)->make($abstract, $parameters);
     }
 }

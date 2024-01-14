@@ -1,0 +1,9 @@
+<?php
+
+namespace {{ namespace }};
+
+use plugin\{{ moduleName }}\app\services\BaseService;
+class {{ className }} extends BaseService
+{
+
+}

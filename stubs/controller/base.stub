@@ -2,12 +2,11 @@
 
 namespace {{ namespace }};
 
-use support\Request;
-
-class {{ className }}
+use plugin\{{ moduleName }}\app\controllers\BaseController;
+class {{ className }} extends BaseController
 {
-    public function index(Request $request)
-    {
-        return response('hello webman module');
-    }
+  public function index(): \support\Response
+  {
+      return $this->success();
+  }
 }

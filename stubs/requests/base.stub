@@ -1,0 +1,9 @@
+<?php
+
+namespace {{ namespace }};
+
+use plugin\{{ moduleName }}\app\requests\BaseValidate;
+class {{ className }} extends BaseValidate
+{
+
+}

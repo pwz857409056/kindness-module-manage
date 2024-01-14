@@ -56,6 +56,7 @@ return [
             'config' => 'config',
             'route' => 'routes',
             'service' => 'app/services',
+            'request' => 'app/requests',
         ],
 
         /*
