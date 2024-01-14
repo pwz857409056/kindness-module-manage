@@ -17,7 +17,8 @@
     "topthink/think-validate": "^2.0",
     "psr/container": "^2.0",
     "php-di/php-di": "^7.0",
-    "doctrine/annotations": "^2.0"
+    "doctrine/annotations": "^2.0",
+    "guzzlehttp/guzzle": "^7.8"
   },
   "autoload": {
     "psr-4": {
