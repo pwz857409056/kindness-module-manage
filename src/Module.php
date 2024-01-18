@@ -109,7 +109,7 @@ class Module implements Bootstrap
             // 启动模块服务容器
             $app = require_once module_path($moduleName) . '/bootstrap/app.php';
             if ($app instanceof \Illuminate\Contracts\Foundation\Application) {
-                if (!is_null($this->worker) && $this->worker->name == 'plugin.sunshine.console.monitor') {
+                if (!is_null($this->worker) && $this->worker->name == 'plugin.kindness.module-manage.monitor') {
                     Worker::safeEcho("<n><g>[INFO]</g> 应用模块 {$moduleName} 已启动.</n>" . PHP_EOL);
                 }
             }
