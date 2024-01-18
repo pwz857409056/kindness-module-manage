@@ -10,7 +10,7 @@ return [
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
-        plugin\{{ name }}\app\providers\AppServiceProvider::class
+        plugin\{{ name }}\app\providers\AppServiceProvider::class,
         plugin\{{ name }}\app\providers\EventServiceProvider::class
     ],
 ];
