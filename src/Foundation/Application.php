@@ -319,6 +319,16 @@ class Application extends Container implements ApplicationContract
         }
     }
 
+    /**
+     * Determine if the application events are cached.
+     *
+     * @return bool
+     */
+    public function eventsAreCached()
+    {
+        return false;
+    }
+
     public function make($abstract, array $parameters = [])
     {
         $this->loadDeferredProviderIfNeeded($abstract = $this->getAlias($abstract));
