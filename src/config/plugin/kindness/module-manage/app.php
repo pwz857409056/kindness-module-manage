@@ -72,7 +72,7 @@ return [
          */
         'stub' => [
             'moduleJson' => ['from' => 'module.stub', 'to' => '/module.json'],
-            'app-kernel' => ['from' => 'app/kernel.stub', 'to' => '/app/kernel.php'],
+            'app-kernel' => ['from' => 'app/kernel.stub', 'to' => '/app/Kernel.php'],
             'bootstrap-app' => ['from' => 'bootstrap/app.stub', 'to' => '/bootstrap/app.php'],
             'config-app' => ['from' => 'config/app.stub', 'to' => '/config/app.php'],
             'config-autoload' => ['from' => 'config/autoload.stub', 'to' => '/config/autoload.php'],
