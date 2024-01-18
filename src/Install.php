@@ -1,4 +1,5 @@
 <?php
+
 namespace Kindness\ModuleManage;
 
 class Install
@@ -27,6 +28,14 @@ class Install
     {
         static::installByRelation();
         static::overwriteByRelationPath();
+        static::installEnv();
+    }
+
+    public static function installEnv()
+    {
+        if (!file_exists(base_path() . '/.env')) {
+            \copy(__DIR__ . "/.env", base_path().'/.env');
+        }
     }
 
     /**
@@ -46,13 +55,13 @@ class Install
     {
         foreach (static::$pathRelation as $source => $dest) {
             if ($pos = strrpos($dest, '/')) {
-                $parent_dir = base_path().'/'.substr($dest, 0, $pos);
+                $parent_dir = base_path() . '/' . substr($dest, 0, $pos);
                 if (!is_dir($parent_dir)) {
                     mkdir($parent_dir, 0777, true);
                 }
             }
             //symlink(__DIR__ . "/$source", base_path()."/$dest");
-            copy_dir(__DIR__ . "/$source", base_path()."/$dest");
+            copy_dir(__DIR__ . "/$source", base_path() . "/$dest");
             echo "Create $dest
 ";
         }
@@ -65,7 +74,7 @@ class Install
     public static function uninstallByRelation()
     {
         foreach (static::$pathRelation as $source => $dest) {
-            $path = base_path()."/$dest";
+            $path = base_path() . "/$dest";
             if (!is_dir($path) && !is_file($path)) {
                 continue;
             }

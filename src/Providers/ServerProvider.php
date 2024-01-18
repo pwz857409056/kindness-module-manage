@@ -2,6 +2,7 @@
 
 namespace Kindness\ModuleManage\Providers;
 
+use Kindness\ModuleManage\Foundation\Application;
 use Psr\Container\ContainerInterface;
 use support\Container;
 use Workerman\Worker;
@@ -11,7 +12,7 @@ abstract class ServerProvider
     /**
      * The application instance.
      *
-     * @var ContainerInterface|\DI\Container
+     * @var ContainerInterface|Application|\Illuminate\Contracts\Container\Container
      */
     protected $container;
 
@@ -22,6 +23,11 @@ abstract class ServerProvider
      */
     protected $worker;
 
+    protected array $bootstrappers = [
+        \Kindness\ModuleManage\Foundation\Bootstrap\RegisterFacades::class,
+        \Kindness\ModuleManage\Foundation\Bootstrap\RegisterProviders::class,
+        \Kindness\ModuleManage\Foundation\Bootstrap\LoadConfiguration::class,
+    ];
 
     /**
      * Create a new service provider instance.
@@ -43,6 +49,7 @@ abstract class ServerProvider
                 $this->container->set($abstract, $concrete);
             }
         }
+        $this->container->bootstrapWith($this->bootstrappers);
     }
 
     /**

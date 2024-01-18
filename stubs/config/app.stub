@@ -2,5 +2,13 @@
 
 return [
     'name' => '{{ name }}',
-    'debug' => true
+    'debug' => true,
+    'providers' => [
+        /*
+         * Laravel Framework Service Providers...
+         */
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+    ],
 ];

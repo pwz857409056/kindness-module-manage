@@ -1,10 +1,5 @@
 <?php
-$builder = new \DI\ContainerBuilder();
-$builder->addDefinitions(config('dependence', []));
-$builder->useAutowiring(true);
-$builder->useAttributes(true);
-try {
-    return $builder->build();
-} catch (\Throwable $e) {
-    var_dump($e->getMessage());
-}
+use Kindness\ModuleManage\Foundation\Application;
+
+$container = new Application('{{ name }}');
+return $container;
