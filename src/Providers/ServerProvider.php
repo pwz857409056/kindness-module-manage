@@ -2,12 +2,13 @@
 
 namespace Kindness\ModuleManage\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use Kindness\ModuleManage\Foundation\Application;
 use Psr\Container\ContainerInterface;
 use support\Container;
 use Workerman\Worker;
 
-abstract class ServerProvider
+abstract class ServerProvider extends ServiceProvider
 {
     /**
      * The application instance.
@@ -27,6 +28,7 @@ abstract class ServerProvider
         \Kindness\ModuleManage\Foundation\Bootstrap\RegisterFacades::class,
         \Kindness\ModuleManage\Foundation\Bootstrap\RegisterProviders::class,
         \Kindness\ModuleManage\Foundation\Bootstrap\LoadConfiguration::class,
+        \Kindness\ModuleManage\Foundation\Bootstrap\BootProviders::class
     ];
 
     /**

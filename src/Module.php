@@ -107,14 +107,13 @@ class Module implements Bootstrap
                 }
             }
             // 启动模块服务容器
-            $appServerProvider = "{$namespace}\\$moduleName\app\providers\AppServerProvider";
-            if (class_exists($appServerProvider)) {
-                if (!is_null($this->worker) && $this->worker->name == 'plugin.kindness.module-manage.monitor') {
+            $app = require_once module_path($moduleName) . '/bootstrap/app.php';
+            if ($app instanceof \Illuminate\Contracts\Foundation\Application) {
+                if (!is_null($this->worker) && $this->worker->name == 'plugin.sunshine.console.monitor') {
                     Worker::safeEcho("<n><g>[INFO]</g> 应用模块 {$moduleName} 已启动.</n>" . PHP_EOL);
                 }
-                $serverProvider = new $appServerProvider($this->worker, $moduleName);
-                $serverProvider->boot();
             }
+            $app->make('kernel')->handle();
         }
     }
 

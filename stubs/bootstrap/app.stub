@@ -1,0 +1,12 @@
+<?php
+
+use Illuminate\Contracts\Foundation\Application;
+use plugin\{{ name }}\app\Kernel;
+use support\Container;
+
+/**
+ * @var Application $app
+ */
+$app = Container::instance('{{ name }}');
+$app->singleton('kernel', Kernel::class);
+return $app;

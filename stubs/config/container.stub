@@ -1,5 +1,4 @@
 <?php
 use Kindness\ModuleManage\Foundation\Application;
-
-$container = new Application('{{ name }}');
+$container = new Application('{{ name }}', dirname(__DIR__));
 return $container;

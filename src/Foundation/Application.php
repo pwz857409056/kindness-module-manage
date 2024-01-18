@@ -5,6 +5,7 @@ namespace Kindness\ModuleManage\Foundation;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Events\EventServiceProvider;
 use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use Kindness\ModuleManage\Foundation\EnvironmentDetector;
@@ -20,7 +21,7 @@ class Application extends Container implements ApplicationContract
 
     public function basePath($path = '')
     {
-        // TODO: Implement basePath() method.
+        return $this->basePath . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     public function bootstrapPath($path = '')
@@ -30,7 +31,7 @@ class Application extends Container implements ApplicationContract
 
     public function configPath($path = '')
     {
-        // TODO: Implement configPath() method.
+        return $this->basePath . DIRECTORY_SEPARATOR . 'config' . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     public function databasePath($path = '')
@@ -40,7 +41,7 @@ class Application extends Container implements ApplicationContract
 
     public function resourcePath($path = '')
     {
-        // TODO: Implement resourcePath() method.
+        return $this->basePath . DIRECTORY_SEPARATOR . 'resource' . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     public function storagePath($path = '')
@@ -109,6 +110,60 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Set the base path for the application.
+     *
+     * @param string $basePath
+     * @return $this
+     */
+    public function setBasePath($basePath)
+    {
+        $this->basePath = rtrim($basePath, '\/');
+        $this->bindPathsInContainer();
+        return $this;
+    }
+
+    /**
+     * Bind all of the application paths in the container.
+     *
+     * @return void
+     */
+    protected function bindPathsInContainer()
+    {
+        $this->instance('path', $this->path());
+        $this->instance('path.base', $this->basePath());
+        $this->instance('path.config', $this->configPath());
+        $this->instance('path.resources', $this->resourcePath());
+    }
+
+    /**
+     * Get the path to the application "app" directory.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function path($path = '')
+    {
+        $appPath = $this->appPath ?: $this->basePath . DIRECTORY_SEPARATOR . 'app';
+
+        return $appPath . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
+    }
+
+    /**
+     * Set the application directory.
+     *
+     * @param string $path
+     * @return $this
+     */
+    public function useAppPath($path)
+    {
+        $this->appPath = $path;
+
+        $this->instance('path', $path);
+
+        return $this;
+    }
+
+    /**
      * The deferred services and their providers.
      *
      * @var array
@@ -134,10 +189,43 @@ class Application extends Container implements ApplicationContract
      * @var bool
      */
     protected $booted = false;
+    /**
+     * The custom application path defined by the developer.
+     *
+     * @var string
+     */
+    protected $appPath;
 
-    public function __construct($plugin = '')
+    /**
+     * The base path for the Laravel installation.
+     *
+     * @var string
+     */
+    protected $basePath;
+    /**
+     * The array of booting callbacks.
+     *
+     * @var callable[]
+     */
+    protected $bootingCallbacks = [];
+    /**
+     * The array of booted callbacks.
+     *
+     * @var callable[]
+     */
+    protected $bootedCallbacks = [];
+
+    /**
+     * Indicates if the application has been bootstrapped before.
+     *
+     * @var bool
+     */
+    protected $hasBeenBootstrapped = false;
+
+    public function __construct($plugin = '', $basePath = '')
     {
         $this->plugin = $plugin;
+        $this->setBasePath($basePath);
         $this->registerBaseBindings();
         $this->registerBaseServiceProviders();
         $this->registerCoreContainerAliases();
@@ -164,7 +252,7 @@ class Application extends Container implements ApplicationContract
 
     protected function registerBaseServiceProviders()
     {
-
+        $this->register(new EventServiceProvider($this));
     }
 
     /**
@@ -193,6 +281,7 @@ class Application extends Container implements ApplicationContract
                      'db.schema' => [\Illuminate\Database\Schema\Builder::class],
                      'redis' => [\Illuminate\Redis\RedisManager::class, \Illuminate\Contracts\Redis\Factory::class],
                      'redis.connection' => [\Illuminate\Redis\Connections\Connection::class, \Illuminate\Contracts\Redis\Connection::class],
+                     'events' => [\Illuminate\Events\Dispatcher::class, \Illuminate\Contracts\Events\Dispatcher::class],
                  ] as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);
@@ -224,7 +313,9 @@ class Application extends Container implements ApplicationContract
         $this->hasBeenBootstrapped = true;
 
         foreach ($bootstrappers as $bootstrapper) {
+            $this['events']->dispatch('bootstrapping: ' . $bootstrapper, [$this]);
             $this->make($bootstrapper)->bootstrap($this);
+            $this['events']->dispatch('bootstrapped: ' . $bootstrapper, [$this]);
         }
     }
 
@@ -313,7 +404,6 @@ class Application extends Container implements ApplicationContract
         if (is_string($provider)) {
             $provider = $this->resolveProvider($provider);
         }
-
         $provider->register();
 
         // If there are bindings / singletons set as properties on the provider we
@@ -341,7 +431,6 @@ class Application extends Container implements ApplicationContract
         if ($this->isBooted()) {
             $this->bootProvider($provider);
         }
-
         return $provider;
     }
 
@@ -467,18 +556,15 @@ class Application extends Container implements ApplicationContract
         if ($this->isBooted()) {
             return;
         }
-
         // Once the application has booted we will also fire some "booted" callbacks
         // for any listeners that need to do work after this initial booting gets
         // finished. This is useful when ordering the boot-up processes we run.
         $this->fireAppCallbacks($this->bootingCallbacks);
-
         array_walk($this->serviceProviders, function ($p) {
             $this->bootProvider($p);
         });
 
         $this->booted = true;
-
         $this->fireAppCallbacks($this->bootedCallbacks);
     }
 
@@ -495,7 +581,6 @@ class Application extends Container implements ApplicationContract
         if (method_exists($provider, 'boot')) {
             $this->call([$provider, 'boot']);
         }
-
         $provider->callBootedCallbacks();
     }
 
