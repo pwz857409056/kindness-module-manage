@@ -98,6 +98,14 @@ class Module implements Bootstrap
             if (file_exists(module_path($moduleName, 'composer.json')) && is_dir(module_path($moduleName, 'vendor'))) {
                 $mergeVendorManager->addVendor(module_path($moduleName, 'vendor'));
             }
+            // 加载 env 环境配置文件
+            if (class_exists('Dotenv\Dotenv') && file_exists(module_path($moduleName, '.env'))) {
+                if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
+                    Dotenv::createUnsafeImmutable(module_path($moduleName))->load();
+                } else {
+                    Dotenv::createMutable(module_path($moduleName))->load();
+                }
+            }
             // 启动模块服务容器
             $app = require_once module_path($moduleName) . '/bootstrap/app.php';
             if ($app instanceof \Illuminate\Contracts\Foundation\Application) {
