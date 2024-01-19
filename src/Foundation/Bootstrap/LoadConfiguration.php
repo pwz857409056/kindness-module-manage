@@ -25,7 +25,7 @@ class LoadConfiguration
         // Finally, we will set the application's environment based on the configuration
         // values that were loaded. We will pass a callback which will be used to get
         // the environment in a web context where an "--env" switch is not present.
-        $app->detectEnvironment(fn() => $config->get('app.env', 'production'));
+        $app->detectEnvironment(fn() => config('app.env', 'production'));
     }
 
     /**
@@ -61,7 +61,6 @@ class LoadConfiguration
         $files = [];
 
         $configPath = realpath($app->configPath());
-
         foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
             $directory = $this->getNestedDirectory($file, $configPath);
 

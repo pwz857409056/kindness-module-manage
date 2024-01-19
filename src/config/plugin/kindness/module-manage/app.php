@@ -72,7 +72,7 @@ return [
          */
         'stub' => [
             'moduleJson' => ['from' => 'module.stub', 'to' => '/module.json'],
-            'app-kernel' => ['from' => 'app/kernel.stub', 'to' => '/app/kernel.php'],
+            'app-kernel' => ['from' => 'app/kernel.stub', 'to' => '/app/Kernel.php'],
             'bootstrap-app' => ['from' => 'bootstrap/app.stub', 'to' => '/bootstrap/app.php'],
             'config-app' => ['from' => 'config/app.stub', 'to' => '/config/app.php'],
             'config-autoload' => ['from' => 'config/autoload.stub', 'to' => '/config/autoload.php'],
@@ -89,7 +89,8 @@ return [
             'config-translation' => ['from' => 'config/translation.stub', 'to' => '/config/translation.php'],
             'controller-BaseController' => ['from' => 'controller/BaseController.stub', 'to' => '/app/controllers/BaseController.php'],
             'service-BaseService' => ['from' => 'service/BaseService.stub', 'to' => '/app/services/BaseService.php'],
-            'provider' => ['from' => 'providers/AppServiceProvider.stub', 'to' => '/app/providers/AppServiceProvider.php'],
+            'provider-App' => ['from' => 'providers/AppServiceProvider.stub', 'to' => '/app/providers/AppServiceProvider.php'],
+            'provider-Event' => ['from' => 'providers/EventServiceProvider.stub', 'to' => '/app/providers/EventServiceProvider.php'],
             'response' => ['from' => 'response/ResponseEnum.stub', 'to' => '/response/ResponseEnum.php'],
             'requests-BaseValidate' => ['from' => 'requests/BaseValidate.stub', 'to' => '/app/requests/BaseValidate.php'],
             'model-BaseModel' => ['from' => 'model/BaseModel.stub', 'to' => '/app/models/BaseModel.php'],

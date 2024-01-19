@@ -3,6 +3,7 @@
 return [
     'name' => '{{ name }}',
     'debug' => true,
+    'locale' => 'zh_CN',
     'providers' => [
         /*
          * Laravel Framework Service Providers...
@@ -10,6 +11,7 @@ return [
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
-        plugin\{{ name }}\app\providers\AppServiceProvider::class
+        plugin\{{ name }}\app\providers\AppServiceProvider::class,
+        plugin\{{ name }}\app\providers\EventServiceProvider::class
     ],
 ];

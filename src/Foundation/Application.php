@@ -19,14 +19,109 @@ class Application extends Container implements ApplicationContract
 {
     use Macroable;
 
+    /**
+     * The deferred services and their providers.
+     *
+     * @var array
+     */
+    protected $deferredServices = [];
+    /**
+     * The names of the loaded service providers.
+     *
+     * @var array
+     */
+    protected $loadedProviders = [];
+
+    protected $plugin = '';
+    /**
+     * All of the registered service providers.
+     *
+     * @var \Illuminate\Support\ServiceProvider[]
+     */
+    protected $serviceProviders = [];
+    /**
+     * Indicates if the application has "booted".
+     *
+     * @var bool
+     */
+    protected $booted = false;
+    /**
+     * The custom application path defined by the developer.
+     *
+     * @var string
+     */
+    protected $appPath;
+
+    /**
+     * The base path for the Laravel installation.
+     *
+     * @var string
+     */
+    protected $basePath;
+    /**
+     * The array of booting callbacks.
+     *
+     * @var callable[]
+     */
+    protected $bootingCallbacks = [];
+    /**
+     * The array of booted callbacks.
+     *
+     * @var callable[]
+     */
+    protected $bootedCallbacks = [];
+    /**
+     * The custom database path defined by the developer.
+     *
+     * @var string
+     */
+    protected $databasePath;
+    /**
+     * Indicates if the application has been bootstrapped before.
+     *
+     * @var bool
+     */
+    protected $hasBeenBootstrapped = false;
+    /**
+     * The custom environment path defined by the developer.
+     *
+     * @var string
+     */
+    protected $environmentPath;
+
+    public function __construct($plugin = '', $basePath = '')
+    {
+        $this->plugin = $plugin;
+        $this->setBasePath($basePath);
+        $this->registerBaseBindings();
+        $this->registerBaseServiceProviders();
+        $this->registerCoreContainerAliases();
+    }
+
+    /**
+     * Get the version number of the application.
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return static::VERSION;
+    }
+
     public function basePath($path = '')
     {
         return $this->basePath . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
+    /**
+     * Get the path to the bootstrap directory.
+     *
+     * @param string $path
+     * @return string
+     */
     public function bootstrapPath($path = '')
     {
-        // TODO: Implement bootstrapPath() method.
+        return $this->basePath . DIRECTORY_SEPARATOR . 'bootstrap' . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     public function configPath($path = '')
@@ -36,7 +131,7 @@ class Application extends Container implements ApplicationContract
 
     public function databasePath($path = '')
     {
-        // TODO: Implement databasePath() method.
+        return ($this->databasePath ?: $this->basePath . DIRECTORY_SEPARATOR . 'database') . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     public function resourcePath($path = '')
@@ -71,7 +166,7 @@ class Application extends Container implements ApplicationContract
 
     public function getLocale()
     {
-        // TODO: Implement getLocale() method.
+        return $this['config']->get('app.locale');
     }
 
     public function getNamespace()
@@ -90,6 +185,79 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Get the path to the environment file directory.
+     *
+     * @return string
+     */
+    public function environmentPath()
+    {
+        return $this->environmentPath ?: $this->basePath;
+    }
+
+    /**
+     * Set the directory for the environment file.
+     *
+     * @param string $path
+     * @return $this
+     */
+    public function useEnvironmentPath($path)
+    {
+        $this->environmentPath = $path;
+
+        return $this;
+    }
+
+    /**
+     * Set the environment file to be loaded during bootstrapping.
+     *
+     * @param string $file
+     * @return $this
+     */
+    public function loadEnvironmentFrom($file)
+    {
+        $this->environmentFile = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get the environment file the application is using.
+     *
+     * @return string
+     */
+    public function environmentFile()
+    {
+        return $this->environmentFile ?: '.env';
+    }
+
+    /**
+     * Get the fully qualified path to the environment file.
+     *
+     * @return string
+     */
+    public function environmentFilePath()
+    {
+        return $this->environmentPath() . DIRECTORY_SEPARATOR . $this->environmentFile();
+    }
+
+    /**
+     * Get or check the current application environment.
+     *
+     * @param string|array ...$environments
+     * @return string|bool
+     */
+    public function environment(...$environments)
+    {
+        if (count($environments) > 0) {
+            $patterns = is_array($environments[0]) ? $environments[0] : $environments;
+
+            return Str::is($patterns, $this['env']);
+        }
+
+        return $this['env'];
+    }
+
+    /**
      * Determine if the application is in the local environment.
      *
      * @return bool
@@ -100,6 +268,17 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Determine if the application locale is the given locale.
+     *
+     * @param string $locale
+     * @return bool
+     */
+    public function isLocale($locale)
+    {
+        return $this->getLocale() == $locale;
+    }
+
+    /**
      * Determine if the application is in the production environment.
      *
      * @return bool
@@ -107,6 +286,29 @@ class Application extends Container implements ApplicationContract
     public function isProduction()
     {
         return $this['env'] === 'production';
+    }
+
+    /**
+     * Detect the application's current environment.
+     *
+     * @param \Closure $callback
+     * @return string
+     */
+    public function detectEnvironment(Closure $callback)
+    {
+        $args = $_SERVER['argv'] ?? null;
+
+        return $this['env'] = (new EnvironmentDetector())->detect($callback, $args);
+    }
+
+    /**
+     * Determine if the application is running with debug mode enabled.
+     *
+     * @return bool
+     */
+    public function hasDebugModeEnabled()
+    {
+        return (bool)config("plugin.$this->plugin.app.debug");
     }
 
     /**
@@ -163,84 +365,6 @@ class Application extends Container implements ApplicationContract
         return $this;
     }
 
-    /**
-     * The deferred services and their providers.
-     *
-     * @var array
-     */
-    protected $deferredServices = [];
-    /**
-     * The names of the loaded service providers.
-     *
-     * @var array
-     */
-    protected $loadedProviders = [];
-
-    protected $plugin = '';
-    /**
-     * All of the registered service providers.
-     *
-     * @var \Illuminate\Support\ServiceProvider[]
-     */
-    protected $serviceProviders = [];
-    /**
-     * Indicates if the application has "booted".
-     *
-     * @var bool
-     */
-    protected $booted = false;
-    /**
-     * The custom application path defined by the developer.
-     *
-     * @var string
-     */
-    protected $appPath;
-
-    /**
-     * The base path for the Laravel installation.
-     *
-     * @var string
-     */
-    protected $basePath;
-    /**
-     * The array of booting callbacks.
-     *
-     * @var callable[]
-     */
-    protected $bootingCallbacks = [];
-    /**
-     * The array of booted callbacks.
-     *
-     * @var callable[]
-     */
-    protected $bootedCallbacks = [];
-
-    /**
-     * Indicates if the application has been bootstrapped before.
-     *
-     * @var bool
-     */
-    protected $hasBeenBootstrapped = false;
-
-    public function __construct($plugin = '', $basePath = '')
-    {
-        $this->plugin = $plugin;
-        $this->setBasePath($basePath);
-        $this->registerBaseBindings();
-        $this->registerBaseServiceProviders();
-        $this->registerCoreContainerAliases();
-    }
-
-    /**
-     * Get the version number of the application.
-     *
-     * @return string
-     */
-    public function version()
-    {
-        return static::VERSION;
-    }
-
     protected function registerBaseBindings()
     {
         static::setInstance($this);
@@ -255,22 +379,6 @@ class Application extends Container implements ApplicationContract
         $this->register(new EventServiceProvider($this));
     }
 
-    /**
-     * Get or check the current application environment.
-     *
-     * @param string|array ...$environments
-     * @return string|bool
-     */
-    public function environment(...$environments)
-    {
-        if (count($environments) > 0) {
-            $patterns = is_array($environments[0]) ? $environments[0] : $environments;
-
-            return Str::is($patterns, $this['env']);
-        }
-
-        return $this['env'];
-    }
 
     public function registerCoreContainerAliases()
     {
@@ -282,24 +390,15 @@ class Application extends Container implements ApplicationContract
                      'redis' => [\Illuminate\Redis\RedisManager::class, \Illuminate\Contracts\Redis\Factory::class],
                      'redis.connection' => [\Illuminate\Redis\Connections\Connection::class, \Illuminate\Contracts\Redis\Connection::class],
                      'events' => [\Illuminate\Events\Dispatcher::class, \Illuminate\Contracts\Events\Dispatcher::class],
+                     'files' => [\Illuminate\Filesystem\Filesystem::class],
+                     'filesystem' => [\Illuminate\Filesystem\FilesystemManager::class, \Illuminate\Contracts\Filesystem\Factory::class],
+                     'filesystem.disk' => [\Illuminate\Contracts\Filesystem\Filesystem::class],
+                     'filesystem.cloud' => [\Illuminate\Contracts\Filesystem\Cloud::class],
                  ] as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);
             }
         }
-    }
-
-    /**
-     * Detect the application's current environment.
-     *
-     * @param \Closure $callback
-     * @return string
-     */
-    public function detectEnvironment(Closure $callback)
-    {
-        $args = $_SERVER['argv'] ?? null;
-
-        return $this['env'] = (new EnvironmentDetector)->detect($callback, $args);
     }
 
     /**
@@ -317,6 +416,16 @@ class Application extends Container implements ApplicationContract
             $this->make($bootstrapper)->bootstrap($this);
             $this['events']->dispatch('bootstrapped: ' . $bootstrapper, [$this]);
         }
+    }
+
+    /**
+     * Determine if the application events are cached.
+     *
+     * @return bool
+     */
+    public function eventsAreCached()
+    {
+        return false;
     }
 
     public function make($abstract, array $parameters = [])
