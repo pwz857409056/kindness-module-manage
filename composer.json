@@ -17,7 +17,9 @@
     "vlucas/phpdotenv": "^5.5",
     "illuminate/filesystem": "^9.52",
     "illuminate/config": "^9.52",
-    "illuminate/events": "^9.52"
+    "illuminate/events": "^9.52",
+    "illuminate/http": "9.52",
+    "guzzlehttp/guzzle": "7.2"
   },
   "autoload": {
     "psr-4": {
