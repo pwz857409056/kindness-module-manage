@@ -112,8 +112,8 @@ class Module implements Bootstrap
                 if (!is_null($this->worker) && $this->worker->name == 'plugin.kindness.module-manage.monitor') {
                     Worker::safeEcho("<n><g>[INFO]</g> 应用模块 {$moduleName} 已启动.</n>" . PHP_EOL);
                 }
+                $app->make('kernel')->handle();
             }
-            $app->make('kernel')->handle();
         }
     }
 
