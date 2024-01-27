@@ -24,7 +24,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof BusinessException) {
             return $this->fail([$exception->getCode(), $exception->getMessage()]);
         }
-        if ($exception instanceof Exception) {
+        if ($exception instanceof Throwable) {
             if (config("$key.debug")) {
                 $data = [
                     'exception' => $this->renderException($exception),
@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
                 $data = null;
                 $message = "请求失败，请稍后再试";
             }
-            return $this->fail([$exception->getCode(), $message],null,$data);
+            return $this->fail([$exception->getCode(), $message], null, $data);
         }
         return parent::render($request, $exception);
     }
