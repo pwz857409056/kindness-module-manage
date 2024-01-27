@@ -1,18 +1,19 @@
 <?php
 
-namespace {{ namespace }};
+namespace  plugin\{{ name }}\app\requests;
 
 use Kindness\ModuleManage\Foundation\Validation\BaseValidate;
-class {{ className }} extends BaseValidate
+class TestRequest extends BaseValidate
 {
     protected $rule = [
 
-        ];
+    ];
 
     protected $message = [
 
-        ];
+    ];
+
     protected $scene = [
 
-        ];
+    ];
 }

@@ -92,7 +92,7 @@ return [
             'provider-App' => ['from' => 'providers/AppServiceProvider.stub', 'to' => '/app/providers/AppServiceProvider.php'],
             'provider-Event' => ['from' => 'providers/EventServiceProvider.stub', 'to' => '/app/providers/EventServiceProvider.php'],
             'response' => ['from' => 'response/ResponseEnum.stub', 'to' => '/response/ResponseEnum.php'],
-            'requests-BaseValidate' => ['from' => 'requests/BaseValidate.stub', 'to' => '/app/requests/BaseValidate.php'],
+            'requests-TestRequest' => ['from' => 'requests/TestRequest.stub', 'to' => '/app/requests/TestRequest.php'],
             'model-BaseModel' => ['from' => 'model/BaseModel.stub', 'to' => '/app/models/BaseModel.php'],
             'app-middleware-EnableCrossRequest' => ['from' => 'middleware/EnableCrossRequest.stub', 'to' => '/app/middleware/EnableCrossRequest.php'],
             'functions' => ['from' => 'functions.stub', 'to' => '/app/functions.php'],

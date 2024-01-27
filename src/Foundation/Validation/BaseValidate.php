@@ -1,27 +1,23 @@
 <?php
 
-namespace plugin\{{ name }}\app\requests;
-
+namespace Kindness\ModuleManage\Foundation\Validation;
 
 use Kindness\ModuleManage\Exceptions\BusinessException;
-use plugin\{{ name }}\response\ResponseEnum;
+use Kindness\ModuleManage\Response\ResponseEnum;
 use think\Validate;
 
-/**
- * @desc:表单验证基类
- */
 class BaseValidate extends Validate
 {
     /**
      * @throws BusinessException
      */
-    public function goCheck($scene = ''): bool
+    public function validate($scene = ''): bool
     {
         $params = request()->all();
         $check = empty($scene) ? $this->check($params) : $this->scene($scene)->check($params);
         //开始判断验证
         if (!$check) {
-            throw new BusinessException(ResponseEnum::HTTP_ERROR, $this->getError());
+            throw new BusinessException(ResponseEnum::HTTP_VALIDATE_ERROR, $this->getError());
         }
         return true;
     }
