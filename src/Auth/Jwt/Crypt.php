@@ -25,12 +25,13 @@ class Crypt
      * 设置mode
      *
      * @param string $mode
-     * @return object $this
+     * @return $this
      */
     public function withMode(string $mode): object
     {
-        $this->mode = $mode;
-
+        if ($mode) {
+            $this->mode = $mode;
+        }
         return $this;
     }
 
@@ -38,12 +39,13 @@ class Crypt
      * 设置iv
      *
      * @param string $iv
-     * @return object $this
+     * @return $this
      */
     public function withIv(string $iv): object
     {
-        $this->iv = $iv;
-
+        if ($iv) {
+            $this->iv = $iv;
+        }
         return $this;
     }
 

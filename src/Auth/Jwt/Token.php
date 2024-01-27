@@ -234,7 +234,7 @@ class Token
     private static function verifyToken(string $token, int $tokenType): array
     {
         $config = self::getConfig();
-        $decryptToken = (new Crypt())->decrypt($token, $config['passphrase']);
+        $decryptToken = (new Crypt())->withIv($config['iv'])->withMode($config['mode'])->decrypt($token, $config['passphrase']);
         $publicKey = self::ACCESS_TOKEN == $tokenType ? self::getPublicKey($config['algorithms']) : self::getPublicKey($config['algorithms'], self::REFRESH_TOKEN);
         JWT::$leeway = $config['leeway'];
         $decoded = JWT::decode($decryptToken, new Key($publicKey, $config['algorithms']));
@@ -256,7 +256,7 @@ class Token
     private static function makeToken(array $payload, string $secretKey, array $config): string
     {
         $token = JWT::encode($payload, $secretKey, $config['algorithms']);
-        return (new Crypt())->encrypt($token, $config['passphrase']);
+        return (new Crypt())->withIv($config['iv'])->withMode($config['mode'])->encrypt($token, $config['passphrase']);
     }
 
     /**
