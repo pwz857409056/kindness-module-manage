@@ -17,9 +17,9 @@ return [
     // refresh令牌过期时间，单位：秒。默认 7 天
     'refresh_exp' => '1296000',
     // 缓存令牌前缀
-    'cache_token_pre' => 'YY:JWT:TOKEN:',
+    'cache_token_pre' => '{{ upperName }}:JWT:TOKEN:',
     // 缓存刷新令牌前缀
-    'cache_refresh_token_pre' => 'YY:JWT:REFRESH_TOKEN:',
+    'cache_refresh_token_pre' => '{{ upperName }}:JWT:REFRESH_TOKEN:',
     //在此之前不可用
     'nbf' => '0',
     // 时钟偏差冗余时间，单位秒。建议这个余地应该不大于几分钟。
@@ -27,15 +27,15 @@ return [
     // 算法类型 HS256、HS384、HS512、RS256、RS384、RS512、ES256、ES384、Ed25519
     'algorithms' => 'HS256',
     // access令牌秘钥
-    'access_secret_key' => '2f7495ed8f64802f60feb2c31bae0563d8e4f26b6dedf4b75fa2fd130fd5457d',//bin2hex(random_bytes(32))
+    'access_secret_key' => '{{ access_secret_key }}',//bin2hex(random_bytes(32))
     // refresh令牌秘钥
-    'refresh_secret_key' => '2022KTxigxc9o50c',
+    'refresh_secret_key' => '{{ refresh_secret_key }}',
     // token加密秘钥，为空不加密，base64编码
-    'passphrase' => 'f5993b6eb2760b79afaeee84b234fb68',
+    'passphrase' => '{{ passphrase }}',
     // 单设备登录
     'is_single_device' => false,
     //加密矢量iv
-    'iv' => 'a91ebd0f3c65209y',
+    'iv' => '{{ iv }}',
     //加密模式
     'mode' => 'cbc',
     // 用户信息模型

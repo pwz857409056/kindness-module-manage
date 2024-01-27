@@ -2,6 +2,6 @@
 
 return [
     ''=>[
-        plugin\yy\app\middleware\EnableCrossRequest::class
+        plugin\{{ name }}\app\middleware\EnableCrossRequest::class
     ]
 ];

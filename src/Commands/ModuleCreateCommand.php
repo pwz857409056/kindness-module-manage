@@ -31,7 +31,7 @@ class ModuleCreateCommand extends Command
         $studlyName = UtilStr::getStudlyName($name);
 
         $author = $this->setAuthorName($input, $output);
-        
+
         $email = $this->ask('请输入邮箱地址（选填）');
         $description = $this->ask('请输入应用简介（选填）');
         $homepage = $this->ask('请输入主页地址（选填）');
@@ -45,6 +45,10 @@ class ModuleCreateCommand extends Command
             'studlyName' => $studlyName,
             'lowerName' => UtilStr::getLowerName($name),
             'upperName' => UtilStr::getUpperName($name),
+            'access_secret_key' => bin2hex(random_bytes(32)),
+            'refresh_secret_key' => bin2hex(random_bytes(32)),
+            'passphrase' => substr(bin2hex(random_bytes(32)), 0, 32),
+            'iv' => substr(bin2hex(random_bytes(32)), 0, 16),
             'author' => $author,
             'email' => $email ?: "{$author}@{$author}.com",
             'description' => $description,

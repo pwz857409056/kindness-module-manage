@@ -6,6 +6,7 @@ use DI\Container;
 use Kindness\ModuleManage\Utils\MergeVendorPlugin;
 use Webman\Bootstrap;
 use Webman\Config;
+use Webman\Middleware;
 use Workerman\Worker;
 use Dotenv\Dotenv;
 
@@ -86,7 +87,6 @@ class Module implements Bootstrap
 
         $mergeVendorManager = new MergeVendorPlugin();
         $mergeVendorManager->init();
-
         foreach ($activities as $activity) {
             $moduleName = $activity['name'];
 
@@ -113,6 +113,9 @@ class Module implements Bootstrap
                     Worker::safeEcho("<n><g>[INFO]</g> 应用模块 {$moduleName} 已启动.</n>" . PHP_EOL);
                 }
                 $app->make('kernel')->handle();
+                Middleware::load(
+                    ["plugin.$moduleName" => [\Kindness\ModuleManage\Foundation\Support\Middlewares\RequestMiddleware::class]]
+                );
             }
         }
     }
