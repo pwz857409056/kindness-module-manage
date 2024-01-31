@@ -1,7 +1,7 @@
 # kindness-module-manage
 
 #### 介绍
-Webman 模块管理插件，重写了laravel容器以适配webman框架
+Webman 模块管理插件
 
 #### 安装
 
