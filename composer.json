@@ -2,7 +2,7 @@
   "name": "kindness/module-manage",
   "type": "library",
   "license": "MIT",
-  "description": "Webman plugin kindness/module-manage",
+  "description": "Webman module manage plugin",
   "require": {
     "php": ">=8.0",
     "webman/console": "^1.3",
