@@ -5,7 +5,8 @@
   "description": "Webman plugin kindness/module-manage",
   "require": {
     "php": ">=8.0",
-    "webman/console": "^1.3",
+    "webman/console": "*",
+    "workerman/webman-framework": "*",
     "phpseclib/phpseclib": "^3.0",
     "firebase/php-jwt": "^6.9",
     "illuminate/support": "^9.52",
