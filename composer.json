@@ -12,13 +12,12 @@
     "illuminate/redis": "^9.52",
     "illuminate/database": "^9.52",
     "illuminate/pagination": "^9.52",
-    "illuminate/events": "^9.52",
-    "topthink/think-validate": "^2.0",
-    "vlucas/phpdotenv": "^5.5",
     "illuminate/filesystem": "^9.52",
     "illuminate/config": "^9.52",
     "illuminate/events": "^9.52",
     "illuminate/http": "9.52",
+    "topthink/think-validate": "^2.0",
+    "vlucas/phpdotenv": "^5.5",
     "guzzlehttp/guzzle": "7.2"
   },
   "autoload": {
