@@ -6,7 +6,7 @@
   "require": {
     "php": ">=8.0",
     "webman/console": "^1.3",
-    "workerman/webman-framework": "^1.5.0",
+    "workerman/webman-framework": "^1.5.16",
     "phpseclib/phpseclib": "^3.0",
     "firebase/php-jwt": "^6.9",
     "illuminate/support": "^9.52",
@@ -16,7 +16,7 @@
     "illuminate/filesystem": "^9.52",
     "illuminate/config": "^9.52",
     "illuminate/events": "^9.52",
-    "illuminate/http": "9.52",
+    "illuminate/http": "^9.52",
     "topthink/think-validate": "^2.0",
     "vlucas/phpdotenv": "^5.5",
     "guzzlehttp/guzzle": "7.2"
