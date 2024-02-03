@@ -3,13 +3,12 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt\Exception;
 
-use RuntimeException;
 use Throwable;
 
 /**
  * 鉴权token过期，需要刷新token
  */
-class JwtTokenExpiredException extends RuntimeException
+class JwtTokenExpiredException extends JwtException
 {
     /**
      * @param $message

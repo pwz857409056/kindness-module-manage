@@ -3,13 +3,12 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt\Exception;
 
-use RuntimeException;
 use Throwable;
 
 /**
  * 限制单设备登录时可能抛出的异常
  */
-class JwtCacheTokenException extends RuntimeException
+class JwtCacheTokenException extends JwtException
 {
     /**
      * @param $message

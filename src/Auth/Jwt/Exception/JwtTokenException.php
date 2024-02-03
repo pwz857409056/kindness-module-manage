@@ -3,13 +3,12 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt\Exception;
 
-use RuntimeException;
 use Throwable;
 
 /**
  * token 验证异常
  */
-class JwtTokenException extends RuntimeException
+class JwtTokenException extends JwtException
 {
     /**
      * @param $message
