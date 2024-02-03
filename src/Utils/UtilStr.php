@@ -9,6 +9,7 @@ class UtilStr
     /**
      * @desc:方法将带有 _的字符串转换成驼峰命名的字符串
      *
+     * @param $name
      * @return string
      */
     public static function getStudlyName($name): string
@@ -19,6 +20,7 @@ class UtilStr
     /**
      * @desc:获取小写名字
      *
+     * @param $name
      * @return string
      */
     public static function getLowerName($name): string
@@ -29,6 +31,7 @@ class UtilStr
     /**
      * @desc:获取全大写名字
      *
+     * @param $name
      * @return string
      */
     public static function getUpperName($name): string

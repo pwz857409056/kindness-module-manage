@@ -26,7 +26,7 @@ class DiscoverEvents
      * @param string $basePath
      * @return array
      */
-    public static function within($listenerPath, $basePath)
+    public static function within(string $listenerPath, string $basePath): array
     {
         $listeners = collect(static::getListenerEvents(
             (new Finder)->files()->in($listenerPath), $basePath
@@ -54,7 +54,7 @@ class DiscoverEvents
      * @param string $basePath
      * @return array
      */
-    protected static function getListenerEvents($listeners, $basePath)
+    protected static function getListenerEvents(iterable $listeners, string $basePath): array
     {
         $listenerEvents = [];
 
@@ -88,11 +88,11 @@ class DiscoverEvents
     /**
      * Extract the class name from the given file path.
      *
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string $basePath
      * @return string
      */
-    protected static function classFromFile(SplFileInfo $file, $basePath)
+    protected static function classFromFile(SplFileInfo $file, string $basePath): string
     {
         if (static::$guessClassNamesUsingCallback) {
             return call_user_func(static::$guessClassNamesUsingCallback, $file, $basePath);
@@ -113,7 +113,7 @@ class DiscoverEvents
      * @param callable(SplFileInfo, string): string $callback
      * @return void
      */
-    public static function guessClassNamesUsing(callable $callback)
+    public static function guessClassNamesUsing(callable $callback): void
     {
         static::$guessClassNamesUsingCallback = $callback;
     }

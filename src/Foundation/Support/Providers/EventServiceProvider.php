@@ -34,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->booting(function () {
             $events = $this->getEvents();
@@ -60,7 +60,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }

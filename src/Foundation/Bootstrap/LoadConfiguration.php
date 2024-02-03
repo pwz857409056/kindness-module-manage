@@ -14,10 +14,11 @@ class LoadConfiguration
     /**
      * Bootstrap the given application.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param Application $app
      * @return void
+     * @throws Exception
      */
-    public function bootstrap(Application $app)
+    public function bootstrap(Application $app): void
     {
         $items = [];
         $app->instance('config', $config = new Repository($items));
@@ -31,13 +32,13 @@ class LoadConfiguration
     /**
      * Load the configuration items from all of the files.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param \Illuminate\Contracts\Config\Repository $repository
+     * @param Application $app
+     * @param RepositoryContract $repository
      * @return void
      *
      * @throws \Exception
      */
-    protected function loadConfigurationFiles(Application $app, RepositoryContract $repository)
+    protected function loadConfigurationFiles(Application $app, RepositoryContract $repository): void
     {
         $files = $this->getConfigurationFiles($app);
 
@@ -53,10 +54,10 @@ class LoadConfiguration
     /**
      * Get all of the configuration files for the application.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param Application $app
      * @return array
      */
-    protected function getConfigurationFiles(Application $app)
+    protected function getConfigurationFiles(Application $app): array
     {
         $files = [];
 
@@ -75,11 +76,11 @@ class LoadConfiguration
     /**
      * Get the configuration file nesting path.
      *
-     * @param \SplFileInfo $file
+     * @param SplFileInfo $file
      * @param string $configPath
      * @return string
      */
-    protected function getNestedDirectory(SplFileInfo $file, $configPath)
+    protected function getNestedDirectory(SplFileInfo $file, string $configPath): string
     {
         $directory = $file->getPath();
 

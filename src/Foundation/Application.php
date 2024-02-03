@@ -4,20 +4,20 @@ namespace Kindness\ModuleManage\Foundation;
 
 use Closure;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\CircularDependencyException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Events\EventServiceProvider;
-use Illuminate\Support\Env;
 use Illuminate\Support\Str;
-use Kindness\ModuleManage\Foundation\EnvironmentDetector;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
-use Kindness\ModuleManage\Foundation\AliasLoader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class Application extends Container implements ApplicationContract
 {
     use Macroable;
+
+    const VERSION = "9.56";
 
     /**
      * The deferred services and their providers.
@@ -36,7 +36,7 @@ class Application extends Container implements ApplicationContract
     /**
      * All of the registered service providers.
      *
-     * @var \Illuminate\Support\ServiceProvider[]
+     * @var ServiceProvider[]
      */
     protected $serviceProviders = [];
     /**
@@ -88,6 +88,13 @@ class Application extends Container implements ApplicationContract
      * @var string
      */
     protected $environmentPath;
+
+    /**
+     * The array of terminating callbacks.
+     *
+     * @var callable[]
+     */
+    protected $terminatingCallbacks = [];
 
     public function __construct($plugin = '', $basePath = '')
     {
@@ -406,6 +413,7 @@ class Application extends Container implements ApplicationContract
      *
      * @param string[] $bootstrappers
      * @return void
+     * @throws BindingResolutionException
      */
     public function bootstrapWith(array $bootstrappers)
     {
@@ -497,9 +505,9 @@ class Application extends Container implements ApplicationContract
     /**
      * Register a service provider with the application.
      *
-     * @param \Illuminate\Support\ServiceProvider|string $provider
+     * @param ServiceProvider|string $provider
      * @param bool $force
-     * @return \Illuminate\Support\ServiceProvider
+     * @return ServiceProvider
      */
     public function register($provider, $force = false)
     {
@@ -556,8 +564,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instance if it exists.
      *
-     * @param \Illuminate\Support\ServiceProvider|string $provider
-     * @return \Illuminate\Support\ServiceProvider|null
+     * @param ServiceProvider|string $provider
+     * @return ServiceProvider|null
      */
     public function getProvider($provider)
     {
@@ -568,7 +576,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Get the registered service provider instances if any exist.
      *
-     * @param \Illuminate\Support\ServiceProvider|string $provider
+     * @param ServiceProvider|string $provider
      * @return array
      */
     public function getProviders($provider)
@@ -582,7 +590,7 @@ class Application extends Container implements ApplicationContract
      * Resolve a service provider instance from the class name.
      *
      * @param string $provider
-     * @return \Illuminate\Support\ServiceProvider
+     * @return ServiceProvider
      */
     public function resolveProvider($provider)
     {
@@ -592,7 +600,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Mark the given provider as registered.
      *
-     * @param \Illuminate\Support\ServiceProvider $provider
+     * @param ServiceProvider $provider
      * @return void
      */
     protected function markAsRegistered($provider)
@@ -626,6 +634,8 @@ class Application extends Container implements ApplicationContract
      * @param array $parameters
      * @param bool $raiseEvents
      * @return mixed
+     * @throws BindingResolutionException
+     * @throws CircularDependencyException
      */
     protected function resolve($abstract, $parameters = [], $raiseEvents = true)
     {
@@ -680,7 +690,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Boot the given service provider.
      *
-     * @param \Illuminate\Support\ServiceProvider $provider
+     * @param ServiceProvider $provider
      * @return void
      */
     protected function bootProvider(ServiceProvider $provider)

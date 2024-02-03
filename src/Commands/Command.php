@@ -40,7 +40,7 @@ class Command extends \Symfony\Component\Console\Command\Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws Exception
+     * @throws Exception|ExceptionInterface
      */
     public function run(InputInterface $input, OutputInterface $output):int
     {
