@@ -16,10 +16,6 @@ use Kindness\ModuleManage\Auth\Jwt\Exception\JwtTokenException;
 use Kindness\ModuleManage\Auth\Jwt\Exception\JwtTokenExpiredException;
 use UnexpectedValueException;
 
-/**
- * Class Token
- * @package App\Library\Jwt
- */
 class Token
 {
     /**

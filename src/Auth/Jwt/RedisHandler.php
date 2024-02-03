@@ -6,10 +6,6 @@ use Kindness\ModuleManage\Auth\Jwt\Exception\JwtRefreshTokenExpiredException;
 use Kindness\ModuleManage\Auth\Jwt\Exception\JwtTokenExpiredException;
 use support\Redis;
 
-/**
- * Class RedisHandler
- * @package App\Library\jwt
- */
 class RedisHandler
 {
     /**

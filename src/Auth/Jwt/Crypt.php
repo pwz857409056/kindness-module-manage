@@ -6,8 +6,7 @@ use Kindness\ModuleManage\Auth\Jwt\Exception\jwtDecryptException;
 use phpseclib3\Crypt\AES;
 
 /**
- * Title:加密类
- * Author:puweizhi
+ * 加密类
  */
 class Crypt
 {
@@ -98,7 +97,7 @@ class Crypt
             }
             return $decodeData;
         } catch (\Exception $e) {
-            throw new JwtDecryptException('Token 格式错误');
+            throw new JwtDecryptException('字符串 格式错误');
         }
     }
 }

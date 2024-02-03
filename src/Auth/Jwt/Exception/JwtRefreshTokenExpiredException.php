@@ -3,24 +3,21 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt\Exception;
 
-
-use Kindness\ModuleManage\Auth\Jwt\ResponseEnum;
-use Kindness\ModuleManage\Exceptions\BusinessException;
 use RuntimeException;
 use Throwable;
 
 /**
- * Class JwtRefreshTokenExpiredException
- * @package App\Library\Jwt\Exception
+ * token过期，需要重新登录
  */
 class JwtRefreshTokenExpiredException extends RuntimeException
 {
     /**
-     * @throws BusinessException
+     * @param $message
+     * @param $code
+     * @param Throwable|null $previous
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    public function __construct($message = "Token expired", $code = 500106, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        throw new BusinessException(ResponseEnum::USER_SERVICE_REFRESH_TOKEN_EXPIRED);
     }
 }

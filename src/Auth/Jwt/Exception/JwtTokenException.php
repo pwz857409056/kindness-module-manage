@@ -3,23 +3,21 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt\Exception;
 
-use Kindness\ModuleManage\Auth\Jwt\ResponseEnum;
-use Kindness\ModuleManage\Exceptions\BusinessException;
 use RuntimeException;
 use Throwable;
 
 /**
- * Class JwtTokenException
- * @package App\Library\Jwt\Exception
+ * token 验证异常
  */
 class JwtTokenException extends RuntimeException
 {
     /**
-     * @throws BusinessException
+     * @param $message
+     * @param $code
+     * @param Throwable|null $previous
      */
-    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    public function __construct($message = "JWT error", $code = 500108, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        throw new BusinessException(ResponseEnum::JWT_ERROR,$message);
     }
 }
