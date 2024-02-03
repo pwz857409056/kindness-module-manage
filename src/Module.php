@@ -2,13 +2,12 @@
 
 namespace Kindness\ModuleManage;
 
-use DI\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Kindness\ModuleManage\Utils\MergeVendorPlugin;
 use Webman\Bootstrap;
 use Webman\Config;
 use Webman\Middleware;
 use Workerman\Worker;
-use Dotenv\Dotenv;
 
 class Module implements Bootstrap
 {
@@ -79,6 +78,7 @@ class Module implements Bootstrap
      * Start activity containers.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot()
     {
@@ -89,7 +89,6 @@ class Module implements Bootstrap
         $mergeVendorManager->init();
         foreach ($activities as $activity) {
             $moduleName = $activity['name'];
-
             // 加载模块公共函数文件
             if (file_exists(module_path($moduleName, 'app/functions.php'))) {
                 require module_path($moduleName, 'app/functions.php');
@@ -97,14 +96,6 @@ class Module implements Bootstrap
             // 加载模块 composer 拓展包文件
             if (file_exists(module_path($moduleName, 'composer.json')) && is_dir(module_path($moduleName, 'vendor'))) {
                 $mergeVendorManager->addVendor(module_path($moduleName, 'vendor'));
-            }
-            // 加载 env 环境配置文件
-            if (class_exists('Dotenv\Dotenv') && file_exists(module_path($moduleName, '.env'))) {
-                if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
-                    Dotenv::createUnsafeImmutable(module_path($moduleName))->load();
-                } else {
-                    Dotenv::createMutable(module_path($moduleName))->load();
-                }
             }
             // 启动模块服务容器
             $app = require_once module_path($moduleName) . '/bootstrap/app.php';
