@@ -33,7 +33,7 @@ class Token
         return static::$_instance;
     }
 
-    public static function __callStatic(string $method, array $arguments)
+    public static function __callStatic($method,$arguments)
     {
         return static::instance()->$method(...$arguments);
     }
