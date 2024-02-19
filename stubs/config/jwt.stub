@@ -3,13 +3,13 @@ return [
     //是否开启严格验证
     'strict' => true,
     //发行人
-    'iss' => 'xinbo',
+    'iss' => '{{ name }}',
     //发布时间
     'iat' => time(),
     //用户
     'aud' => request() ? md5(request()->header('user-agent')) : '',
     //主题
-    'sub' => 'xinbo-passport',
+    'sub' => '{{ name }}-passport',
     //JWT ID用于标识该JWT
     'jti' => uniqid(),
     // access令牌过期时间，单位：秒。默认 2 小时
