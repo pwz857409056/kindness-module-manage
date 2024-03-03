@@ -27,15 +27,15 @@ return [
     // 算法类型 HS256、HS384、HS512、RS256、RS384、RS512、ES256、ES384、Ed25519
     'algorithms' => 'HS256',
     // access令牌秘钥
-    'access_secret_key' => '71bf0ce579df1cc7fa87a20d14e0a44f',//bin2hex(random_bytes(32))
+    'access_secret_key' => '',//bin2hex(random_bytes(32))
     // refresh令牌秘钥
-    'refresh_secret_key' => '9be50647643a0893a991ff53d2b1ba89',
+    'refresh_secret_key' => '',
     // token加密秘钥，为空不加密，base64编码
-    'passphrase' => '706ae34fb47bae819f42729b37064f34',
+    'passphrase' => '',
     // 单设备登录
     'is_single_device' => false,
     //加密矢量iv
-    'iv' => '{{ iv }}',
+    'iv' => '',
     //加密模式
-    'mode' => 'AES-128-CBC'
+    'mode' => 'cbc'
 ];

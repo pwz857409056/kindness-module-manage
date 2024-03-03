@@ -189,8 +189,8 @@ class Token implements TokenFactory
         $token = [
             'token_type' => 'Bearer',
             'expires_in' => $config['access_exp'],
-            'access_token' => $this->generateAccessToken($extend, $config),
-            'refresh_token' => $this->generateRefreshToken($extend, $config),
+            'access_token' => $this->generateAccessToken($extend['extend'], $config),
+            'refresh_token' => $this->generateRefreshToken($extend['extend'], $config),
         ];
         if ($this->isNeedCache) {
             if ($config['is_single_device']) {
