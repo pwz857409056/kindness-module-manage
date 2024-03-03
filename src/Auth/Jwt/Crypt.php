@@ -3,7 +3,6 @@
 namespace Kindness\ModuleManage\Auth\Jwt;
 
 use Kindness\ModuleManage\Auth\Jwt\Exception\jwtDecryptException;
-use phpseclib3\Crypt\AES;
 
 /**
  * 加密类
@@ -56,17 +55,13 @@ class Crypt
      */
     public function encrypt($plaintext, $key = ''): string
     {
-        if (empty($plaintext) || empty($key)) {
-            return $plaintext;
-        }
-
-        $plaintext = bin2hex(time() . '_' . $plaintext);
-        $aes = new AES($this->mode);
-        $aes->setIV($this->iv);
-        $aes->setKey($key);
-        $encodeData = $aes->encrypt($plaintext);
-
-        return bin2hex($encodeData);
+        $encryptContent = openssl_encrypt(
+            $plaintext,
+            $this->mode,
+            $key,
+            0,
+            $this->iv);
+        return base64_encode($encryptContent);
     }
 
     /**
@@ -80,24 +75,14 @@ class Crypt
     {
 
         try {
-            if (empty($plaintext) || empty($key)) {
-                return $plaintext;
-            }
-            $aes = new AES($this->mode);
-            $aes->setIV($this->iv);
-            $aes->setKey($key);
-            $decodeData = $aes->decrypt(hex2bin($plaintext));// hex2bin = pack("H*", $hex_string)
-            $decodeData = trim(hex2bin($decodeData));
-            if (preg_match('/\d{10}_/s', substr($decodeData, 0, 11))) {
-                if ($ttl > 0 && (time() - substr($decodeData, 0, 10) > $ttl)) {
-                    $decodeData = null;
-                } else {
-                    $decodeData = substr($decodeData, 11);
-                }
-            }
-            return $decodeData;
+            return openssl_decrypt(
+                base64_decode($plaintext),//要加/解密的内容
+                $this->mode,
+                $key,
+                0,
+                $this->iv);
         } catch (\Exception $e) {
-            throw new JwtDecryptException('字符串 格式错误');
+            throw new jwtDecryptException('Token 格式错误');
         }
     }
 }
