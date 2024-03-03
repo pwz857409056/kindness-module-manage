@@ -12,7 +12,7 @@ class Crypt
     /**
      * $var string
      */
-    protected string $mode = 'AES-256-CBC';
+    protected string $mode = 'AES-128-CBC';
 
     /**
      * $var string
@@ -68,12 +68,10 @@ class Crypt
      * 解密函数
      * @param $plaintext
      * @param string $key 密匙
-     * @param int $ttl 过期时间
      * @return string|null 字符串类型的返回结果
      */
     public function decrypt($plaintext, $key = ''): ?string
     {
-
         try {
             return openssl_decrypt(
                 base64_decode($plaintext),//要加/解密的内容
