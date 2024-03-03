@@ -12,7 +12,7 @@ class Crypt
     /**
      * $var string
      */
-    protected string $mode = 'cbc';
+    protected string $mode = 'AES-256-CBC';
 
     /**
      * $var string
@@ -71,7 +71,7 @@ class Crypt
      * @param int $ttl 过期时间
      * @return string|null 字符串类型的返回结果
      */
-    public function decrypt($plaintext, $key = '', $ttl = 0): ?string
+    public function decrypt($plaintext, $key = ''): ?string
     {
 
         try {
