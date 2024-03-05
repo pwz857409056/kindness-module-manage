@@ -63,7 +63,7 @@ class Crypt
         $aes->setIV($this->iv);
         $aes->setKey($key);
         $encodeData = $aes->encrypt($plaintext);
-        return base64_encode($encodeData);
+        return bin2hex($encodeData);
     }
 
     /**
@@ -83,7 +83,7 @@ class Crypt
             $aes->setIV($this->iv);
             $aes->setKey($key);
             // hex2bin = pack("H*", $hex_string)
-            return $aes->decrypt(base64_decode($plaintext));
+            return $aes->decrypt(hex2bin($plaintext));
         } catch (\Exception $e) {
             throw new JwtDecryptException('字符串 格式错误');
         }
