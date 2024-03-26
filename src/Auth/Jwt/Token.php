@@ -242,6 +242,8 @@ class Token implements TokenFactory
         if ($this->isNeedCache) {
             if ($config['is_single_device']) {
                 RedisHandler::verifyToken($config['cache_token_pre'], $decodeToken, $token);
+            } else {
+                RedisHandler::verifyRefreshToken($config['cache_refresh_token_pre'], $decodeToken);
             }
         }
         return $decodeToken;

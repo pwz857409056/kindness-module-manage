@@ -80,7 +80,6 @@ return [
             'config-dependence' => ['from' => 'config/dependence.stub', 'to' => '/config/dependence.php'],
             'config-database' => ['from' => 'config/database.stub', 'to' => '/config/database.php'],
             'config-exception' => ['from' => 'config/exception.stub', 'to' => '/config/exception.php'],
-            'config-jwt' => ['from' => 'config/jwt.stub', 'to' => '/config/jwt.php'],
             'config-log' => ['from' => 'config/log.stub', 'to' => '/config/log.php'],
             'config-middleware' => ['from' => 'config/middleware.stub', 'to' => '/config/middleware.php'],
             'config-process' => ['from' => 'config/process.stub', 'to' => '/config/process.php'],
