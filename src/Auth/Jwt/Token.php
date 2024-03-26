@@ -281,6 +281,9 @@ class Token implements TokenFactory
         if ($this->app['config']->get('jwt')) {
             return $this->app['config']->get('jwt');
         }
+        if (config('jwt')) {
+            return config('jwt');
+        }
         throw new JwtConfigException('jwt配置文件不存在');
     }
 
