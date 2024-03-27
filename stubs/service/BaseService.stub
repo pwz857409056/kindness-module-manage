@@ -8,45 +8,45 @@ use Kindness\ModuleManage\Contracts\ServiceInterface;
 class BaseService implements ServiceInterface
 {
 
-    /**
-     * 处理返回code和message
-     * @var array
-     */
-    protected array $code = ResponseEnum::CLIENT_NOT_FOUND_HTTP_ERROR;
+        /**
+         * 处理返回code和message
+         * @var array
+         */
+        protected array $code = ResponseEnum::CLIENT_NOT_FOUND_HTTP_ERROR;
 
-    /**
-     * 处理返回结果
-     * @var mixed|array
-     */
-    protected array $result = [];
+        /**
+         * 处理返回结果
+         * @var mixed|array
+         */
+        protected array $result = [];
 
-    protected int $limit = 15;
-    protected int $page = 1;
+        protected int $limit = 15;
+        protected int $page = 1;
 
-    public function __construct()
-    {
-        $this->init();
-        $this->limit = request()->input('limit') ?? $this->limit;
-        $this->page = request()->input('page') ?? $this->page;
-    }
-
-    private function init()
-    {
-        if (request()->method() == 'GET') {
-            $this->code = ResponseEnum::GET_SUCCESS;
+        public function __construct()
+        {
+            $this->init();
+            $this->limit = request()->input('limit', $this->limit);
+            $this->page = request()->input('page', $this->page);
         }
-        if (request()->method() == 'POST') {
-            $this->code = ResponseEnum::HTTP_OK;
+
+        private function init()
+        {
+            if (request()->method() == 'GET') {
+                $this->code = ResponseEnum::GET_SUCCESS;
+            }
+            if (request()->method() == 'POST') {
+                $this->code = ResponseEnum::HTTP_OK;
+            }
         }
-    }
 
-    public function getResult(): array
-    {
-        return $this->result;
-    }
+        public function getResult(): array
+        {
+            return $this->result;
+        }
 
-    public function getCode(): array
-    {
-        return $this->code;
-    }
+        public function getCode(): array
+        {
+            return $this->code;
+        }
 }
