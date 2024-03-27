@@ -19,7 +19,7 @@
     "illuminate/http": "^9.52",
     "topthink/think-validate": "^2.0",
     "vlucas/phpdotenv": "^5.5",
-    "guzzlehttp/guzzle": "^7.6"
+    "guzzlehttp/guzzle": "^6.5"
   },
   "autoload": {
     "psr-4": {
