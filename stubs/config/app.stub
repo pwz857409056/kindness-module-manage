@@ -4,6 +4,8 @@ return [
     'name' => '{{ name }}',
     'debug' => true,
     'locale' => 'zh_CN',
+    'controller_reuse' => false,
+    'controller_suffix' => 'Controller',
     'providers' => [
         /*
          * Laravel Framework Service Providers...
