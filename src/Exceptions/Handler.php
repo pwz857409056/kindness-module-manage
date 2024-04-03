@@ -10,6 +10,10 @@ use Webman\Exception\ExceptionHandler;
 use Webman\Http\Request;
 use Webman\Http\Response;
 
+/**
+ * @desc:全局异常处理
+ * @author: kindness<kindness8023@163.com>
+ */
 class Handler extends ExceptionHandler
 {
     use ApiResponse;
