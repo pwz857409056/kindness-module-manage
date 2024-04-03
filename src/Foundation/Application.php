@@ -13,6 +13,10 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * @desc: laravel 的容器
+ * @author: kindness<kindness8023@163.com>
+ */
 class Application extends Container implements ApplicationContract
 {
     use Macroable;
