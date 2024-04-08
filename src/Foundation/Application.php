@@ -13,10 +13,6 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * @desc: laravel 的容器
- * @author: kindness<kindness8023@163.com>
- */
 class Application extends Container implements ApplicationContract
 {
     use Macroable;
@@ -319,7 +315,10 @@ class Application extends Container implements ApplicationContract
      */
     public function hasDebugModeEnabled()
     {
-        return (bool)config("plugin.$this->plugin.app.debug");
+        if ($this->plugin) {
+            return (bool)config("plugin.$this->plugin.app.debug");
+        }
+        return (bool)config("app.debug");
     }
 
     /**
@@ -874,7 +873,12 @@ class Application extends Container implements ApplicationContract
      */
     public function registerConfiguredProviders()
     {
-        foreach (config("plugin.$this->plugin.app.providers") as $provider) {
+        if (!$this->plugin) {
+            $providers = config("app.providers");
+        } else {
+            $providers = config("plugin.$this->plugin.app.providers");
+        }
+        foreach ($providers as $provider) {
             $this->register($provider);
         }
     }
