@@ -2,7 +2,7 @@
 
 namespace Kindness\ModuleManage\Auth\Jwt;
 
-use Kindness\ModuleManage\Auth\Jwt\Exception\jwtDecryptException;
+use Kindness\ModuleManage\Auth\Jwt\Exception\JwtDecryptException;
 use phpseclib3\Crypt\AES;
 
 /**
